@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Event } from '../../interfaces/event';
+import { Event, EventsPackage } from '../../interfaces/event';
 import { EventService } from '../../services/event.service';
 import { EventComponent } from '../event/event.component';
 
@@ -11,7 +11,7 @@ import { EventComponent } from '../event/event.component';
   imports: [EventComponent],
 })
 export class EventsComponent {
-  eventsPackages: Array<{ time: number; date: string; events: Event[] }> = [];
+  eventsPackages: EventsPackage[] = [];
 
   constructor(private eventService: EventService) {
     eventService.getEvents().subscribe((data) => {
@@ -20,7 +20,7 @@ export class EventsComponent {
   }
 
   setEventsPackages(events: Event[]): void {
-    const packages: Array<{ time: number; date: string; events: Event[] }> = [];
+    const packages: EventsPackage[] = [];
     const recordedDates: string[] = [];
 
     events.forEach((event) => {
@@ -49,7 +49,7 @@ export class EventsComponent {
       return dateB - dateA;
     });
 
-    this.eventsPackages = packages;
+    this.eventsPackages = this.setPriorityForEventsPackages(packages);
   }
 
   transformDate(dateString: string): string {
@@ -76,5 +76,23 @@ export class EventsComponent {
 
   checkEvent(event: Event): boolean {
     return !!event.flyerFront;
+  }
+
+  setPriorityForEventsPackages(
+    eventsPackages: EventsPackage[]
+  ): EventsPackage[] {
+    let numberModifiedEvents = 4;
+    return eventsPackages.map((eventsPackage: EventsPackage) => {
+      eventsPackage.events = eventsPackage.events.map((event: Event) => {
+        if (numberModifiedEvents) {
+          event.priority = true;
+          numberModifiedEvents--;
+        } else {
+          event.priority = false;
+        }
+        return event;
+      });
+      return eventsPackage;
+    });
   }
 }

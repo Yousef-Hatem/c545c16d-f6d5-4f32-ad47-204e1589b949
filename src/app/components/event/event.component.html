@@ -8,7 +8,14 @@
     </h4>
   </div>
   <div class="flyerFront">
-    <img [src]="event.flyerFront" alt (error)="imageError(eventDiv)" />
+    <img
+      [ngSrc]="event.flyerFront"
+      width="365"
+      height="205"
+      (error)="imageError(eventDiv)"
+      [priority]="event.priority"
+      alt
+    />
   </div>
   <div class="venue">
     <div class="icon">

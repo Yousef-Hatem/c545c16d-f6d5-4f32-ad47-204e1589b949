@@ -8,6 +8,7 @@ export interface Event {
     name: string;
     direction: string;
   };
+  priority: boolean | undefined;
   date: string;
 }
 export interface EventsPackage {
