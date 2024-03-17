@@ -1,4 +1,4 @@
-<div class="event">
+<div class="event" #eventDiv>
   <div class="top">
     <div class="imgBx">
       <img src="assets/images/user.jpg" alt />
@@ -8,13 +8,13 @@
     </h4>
   </div>
   <div class="flyerFront">
-    <img [src]="event.flyerFront" alt />
+    <img [src]="event.flyerFront" alt (error)="imageError(eventDiv)" />
   </div>
   <div class="venue">
     <div class="icon">
       <mat-icon color="primary">location_on</mat-icon>
     </div>
-    <div>{{ event.venue }}</div>
+    <div>{{ event.venue.name }}</div>
   </div>
   <div class="time">
     Start: {{ event.startTime }} • End: {{ event.endTime }}

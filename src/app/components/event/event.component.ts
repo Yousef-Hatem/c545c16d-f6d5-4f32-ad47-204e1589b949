@@ -12,4 +12,8 @@ import { Event } from '../../interfaces/event';
 })
 export class EventComponent {
   @Input() event!: Event;
+
+  imageError(eventDiv: HTMLElement): void {
+    eventDiv.style.display = 'none';
+  }
 }
