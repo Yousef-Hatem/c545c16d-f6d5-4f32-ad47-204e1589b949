@@ -1,0 +1,28 @@
+section {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  margin: 0;
+  h1 {
+    margin: 0;
+  }
+  .events {
+    .date {
+      margin: 20px 0;
+      color: #3f51b5;
+      font-weight: 500;
+    }
+    .list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 740px;
+      app-event {
+        width: calc(50% - 5px);
+        margin: 5px 0;
+      }
+    }
+  }
+}
