@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Event, EventsPackage } from '../../interfaces/event';
 import { EventService } from '../../services/event.service';
 import { EventComponent } from '../event/event.component';
+import { EventSearchService } from '../../services/event-search.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-events',
@@ -11,16 +13,26 @@ import { EventComponent } from '../event/event.component';
   imports: [EventComponent],
 })
 export class EventsComponent {
+  originalEventsPackages: EventsPackage[] = [];
   eventsPackages: EventsPackage[] = [];
+  loading: boolean = true;
 
-  constructor(private eventService: EventService) {
-    eventService.getEvents().subscribe((data) => {
+  constructor(
+    private eventService: EventService,
+    private eventSearchService: EventSearchService,
+  ) {
+    this.eventService.getEvents().subscribe((data) => {
       this.setEventsPackages(data);
+      this.loading = false;
+
+      this.eventSearchService.getSearch().subscribe((search) => {
+        this.filteredEvents(search);
+      });
     });
   }
 
   setEventsPackages(events: Event[]): void {
-    const packages: EventsPackage[] = [];
+    let packages: EventsPackage[] = [];
     const recordedDates: string[] = [];
 
     events.forEach((event) => {
@@ -49,7 +61,10 @@ export class EventsComponent {
       return dateB - dateA;
     });
 
-    this.eventsPackages = this.setPriorityForEventsPackages(packages);
+    packages = this.setPriorityForEventsPackages(packages);
+
+    this.eventsPackages = packages;
+    this.originalEventsPackages = cloneDeep(packages);
   }
 
   transformDate(dateString: string): string {
@@ -79,7 +94,7 @@ export class EventsComponent {
   }
 
   setPriorityForEventsPackages(
-    eventsPackages: EventsPackage[]
+    eventsPackages: EventsPackage[],
   ): EventsPackage[] {
     let numberModifiedEvents = 4;
     return eventsPackages.map((eventsPackage: EventsPackage) => {
@@ -94,5 +109,20 @@ export class EventsComponent {
       });
       return eventsPackage;
     });
+  }
+
+  filteredEvents(search: string) {
+    let eventsPackages = cloneDeep(this.originalEventsPackages);
+
+    eventsPackages = eventsPackages.map((eventsPackage: EventsPackage) => {
+      eventsPackage.events = eventsPackage.events.filter((event) =>
+        event.title.toLowerCase().includes(search.toLowerCase()),
+      );
+      return eventsPackage;
+    });
+
+    this.eventsPackages = eventsPackages.filter(
+      (eventsPackage: EventsPackage) => eventsPackage.events.length > 0,
+    );
   }
 }

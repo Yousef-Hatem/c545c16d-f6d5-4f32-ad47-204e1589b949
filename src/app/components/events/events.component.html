@@ -1,13 +1,21 @@
 <section>
   <h1>Public Events</h1>
   @for (eventsPackage of eventsPackages; track $index) {
-  <div class="events">
-    <div class="date">{{ eventsPackage.date }}</div>
-    <div class="list">
-      @for (event of eventsPackage.events; track $index) {
-      <app-event [event]="event"></app-event>
-      }
+    <div class="events">
+      <div class="date">{{ eventsPackage.date }}</div>
+      <div class="list">
+        @for (event of eventsPackage.events; track $index) {
+          <app-event [event]="event"></app-event>
+        }
+      </div>
     </div>
-  </div>
+  }
+  @if (!eventsPackages.length && !loading) {
+    <div class="not-found">
+      <div class="imgBx">
+        <img src="assets/images/no-results.png" width="128" />
+      </div>
+      <div class="text">No events found matching your search</div>
+    </div>
   }
 </section>

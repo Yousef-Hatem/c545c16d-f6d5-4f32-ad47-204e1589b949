@@ -24,7 +24,8 @@
   }
   mat-label,
   input {
-    color: #fff !important;
+    color: #fff;
+    margin-inline-start: 7px;
   }
   ::ng-deep {
     .mdc-notched-outline__notch,
@@ -35,6 +36,14 @@
       border-right: none;
       border-bottom: none;
       border-left: none;
+    }
+
+    .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--outlined {
+      padding-inline-end: 23px;
+    }
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+      .mdc-text-field__input {
+      caret-color: #fff;
     }
   }
 }

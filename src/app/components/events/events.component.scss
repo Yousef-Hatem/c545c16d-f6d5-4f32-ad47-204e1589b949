@@ -1,10 +1,7 @@
 section {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  flex-wrap: wrap;
   padding: 20px 0;
-  margin: 0;
+  margin: auto;
+  width: 740px;
   h1 {
     margin: 0;
   }
@@ -18,11 +15,19 @@ section {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      width: 740px;
       app-event {
         width: calc(50% - 5px);
         margin: 5px 0;
       }
+    }
+  }
+  .not-found {
+    margin-top: 3rem;
+    text-align: center;
+    .text {
+      margin-top: 1rem;
+      font-weight: 500;
+      font-size: 1rem;
     }
   }
 }

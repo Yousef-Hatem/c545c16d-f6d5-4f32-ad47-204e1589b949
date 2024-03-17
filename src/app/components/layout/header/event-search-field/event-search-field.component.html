@@ -1,5 +1,5 @@
 <mat-form-field class="event-search" appearance="outline">
   <mat-label>Search for events</mat-label>
   <mat-icon matTextPrefix>search</mat-icon>
-  <input type="text" matInput />
+  <input type="text" [(ngModel)]="search" (input)="sendSearchText()" matInput />
 </mat-form-field>
