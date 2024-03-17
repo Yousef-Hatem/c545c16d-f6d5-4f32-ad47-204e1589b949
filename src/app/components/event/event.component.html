@@ -1,0 +1,31 @@
+<div class="event">
+  <div class="top">
+    <div class="imgBx">
+      <img src="assets/images/user.jpg" alt />
+    </div>
+    <h4>
+      {{ event.title }}
+    </h4>
+  </div>
+  <div class="flyerFront">
+    <img [src]="event.flyerFront" alt />
+  </div>
+  <div class="venue">
+    <div class="icon">
+      <mat-icon color="primary">location_on</mat-icon>
+    </div>
+    <div>{{ event.venue }}</div>
+  </div>
+  <div class="time">
+    Start: {{ event.startTime }} • End: {{ event.endTime }}
+  </div>
+  <div class="buttons">
+    <button mat-button color="primary">
+      <mat-icon>add</mat-icon> Add To Cart
+    </button>
+    <button mat-button color="primary">
+      <mat-icon class="material-icons-outlined">map-outline</mat-icon>
+      Open Google Map
+    </button>
+  </div>
+</div>
