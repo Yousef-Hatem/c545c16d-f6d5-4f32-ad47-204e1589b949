@@ -10,3 +10,8 @@ export interface Event {
   };
   date: string;
 }
+export interface EventsPackage {
+  time: number;
+  date: string;
+  events: Event[];
+}
