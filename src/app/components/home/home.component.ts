@@ -19,10 +19,18 @@ export class HomeComponent {
     @Inject(PLATFORM_ID) private platformId: Object,
     private eventService: EventService,
   ) {
+    const events = this.getEventsFromLocalStorage();
+
+    if (events) {
+      this.events = events;
+      this.loading = false;
+    }
+
     this.eventService.getEvents().subscribe((events) => {
       if (isPlatformBrowser(this.platformId)) {
         this.events = this.removeEventsInCartFromEvents(events);
         this.loading = false;
+        this.setEventsInToLocalStorage();
       }
     });
   }
@@ -51,5 +59,21 @@ export class HomeComponent {
       });
     }
     return events;
+  }
+
+  setEventsInToLocalStorage(): void {
+    localStorage.setItem('events', JSON.stringify(this.events));
+  }
+
+  getEventsFromLocalStorage(): Event[] | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const eventsString: string | null = localStorage.getItem('events');
+
+      if (eventsString) {
+        const events: Event[] = JSON.parse(eventsString);
+        return events;
+      }
+    }
+    return null;
   }
 }
