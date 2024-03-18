@@ -1,6 +1,6 @@
 <section>
   <app-events-header
-    title="public events"
+    [title]="title"
     [startDate]="originalEventsPackages[originalEventsPackages.length - 1].time"
     [endDate]="originalEventsPackages[0].time"
   ></app-events-header>
@@ -27,7 +27,7 @@
     </div>
   }
 
-  @if (!eventsPackages.length && !loading) {
+  @if (!eventsPackages.length) {
     <div class="not-found">
       <div class="imgBx">
         <img src="assets/images/no-results.png" width="128" />

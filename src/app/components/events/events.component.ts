@@ -1,7 +1,6 @@
 import { CartService } from './../../services/cart.service';
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Event, EventsPackage } from '../../interfaces/event';
-import { EventService } from '../../services/event.service';
 import { EventComponent } from '../event/event.component';
 import { EventSearchService } from '../../services/event-search.service';
 import { cloneDeep } from 'lodash';
@@ -17,24 +16,22 @@ import { EventsHeaderComponent } from '../events-header/events-header.component'
 export class EventsComponent {
   originalEventsPackages: EventsPackage[] = [];
   eventsPackages: EventsPackage[] = [];
-  loading: boolean = true;
+
+  @Input() title: string = '';
+  @Input() events: Event[] = [];
 
   constructor(
-    private eventService: EventService,
     private eventSearchService: EventSearchService,
     private cartService: CartService,
-  ) {
-    this.eventService.getEvents().subscribe((events) => {
-      events = this.removeEventsInCartFromEvents(events);
+  ) {}
 
-      this.setEventsPackages(events);
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['events']) {
+      this.setEventsPackages(this.events);
       this.eventSearchService.getSearch().subscribe((search) => {
         this.filteredEvents(search);
       });
-
-      this.loading = false;
-    });
+    }
   }
 
   setEventsPackages(events: Event[]): void {
@@ -180,32 +177,5 @@ export class EventsComponent {
     localStorage.setItem('cart', JSON.stringify(cart));
 
     this.removeEvent(eventsPackageIndex, eventIndex);
-  }
-
-  removeEventsInCartFromEvents(events: Event[]): Event[] {
-    const cartString = localStorage.getItem('cart');
-
-    if (cartString) {
-      const cart: EventsPackage[] = JSON.parse(cartString);
-
-      events = events.filter((event) => {
-        const id = event._id;
-        let eventFound: boolean = false;
-
-        cart.forEach((eventsPackage) => {
-          if (!eventFound) {
-            eventsPackage.events.forEach((event) => {
-              if (!eventFound && id === event._id) {
-                eventFound = true;
-              }
-            });
-          }
-        });
-
-        return !eventFound;
-      });
-    }
-
-    return events;
   }
 }
