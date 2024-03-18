@@ -1,15 +1,29 @@
 <section>
   <h1>Public Events</h1>
-  @for (eventsPackage of eventsPackages; track $index) {
+
+  @for (
+    eventsPackage of eventsPackages;
+    track eventsPackageIndex;
+    let eventsPackageIndex = $index
+  ) {
     <div class="events">
       <div class="date">{{ eventsPackage.date }}</div>
       <div class="list">
-        @for (event of eventsPackage.events; track $index) {
-          <app-event [event]="event"></app-event>
+        @for (
+          event of eventsPackage.events;
+          track event._id;
+          let eventsIndex = $index
+        ) {
+          <app-event
+            [event]="event"
+            (imageErrorEvent)="removeEvent(eventsPackageIndex, eventsIndex)"
+            (addToCartEvent)="addToCart(eventsPackageIndex, eventsIndex)"
+          ></app-event>
         }
       </div>
     </div>
   }
+
   @if (!eventsPackages.length && !loading) {
     <div class="not-found">
       <div class="imgBx">

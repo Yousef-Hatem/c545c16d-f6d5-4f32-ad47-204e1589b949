@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgOptimizedImage } from '@angular/common';
@@ -14,7 +14,14 @@ import { Event } from '../../interfaces/event';
 export class EventComponent {
   @Input() event!: Event;
 
-  imageError(eventDiv: HTMLElement): void {
-    eventDiv.style.display = 'none';
+  @Output() addToCartEvent = new EventEmitter();
+  @Output() imageErrorEvent = new EventEmitter();
+
+  imageError(): void {
+    this.imageErrorEvent.emit();
+  }
+
+  addToCart(): void {
+    this.addToCartEvent.emit();
   }
 }

@@ -6,8 +6,8 @@
   <span class="spacer"></span>
   <button mat-icon-button>
     <mat-icon
-      [matBadge]="badgeNumber"
-      [matBadgeHidden]="cartBadgeHidden"
+      [matBadge]="badge"
+      [matBadgeHidden]="badge === 0"
       matBadgeColor="warn"
       aria-hidden="false"
       >shopping_cart</mat-icon

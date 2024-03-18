@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { Component } from '@angular/core';
 import { Event, EventsPackage } from '../../interfaces/event';
 import { EventService } from '../../services/event.service';
@@ -20,14 +21,18 @@ export class EventsComponent {
   constructor(
     private eventService: EventService,
     private eventSearchService: EventSearchService,
+    private cartService: CartService,
   ) {
-    this.eventService.getEvents().subscribe((data) => {
-      this.setEventsPackages(data);
-      this.loading = false;
+    this.eventService.getEvents().subscribe((events) => {
+      events = this.removeEventsInCartFromEvents(events);
+
+      this.setEventsPackages(events);
 
       this.eventSearchService.getSearch().subscribe((search) => {
         this.filteredEvents(search);
       });
+
+      this.loading = false;
     });
   }
 
@@ -124,5 +129,82 @@ export class EventsComponent {
     this.eventsPackages = eventsPackages.filter(
       (eventsPackage: EventsPackage) => eventsPackage.events.length > 0,
     );
+  }
+
+  removeEvent(eventsPackageIndex: number, eventIndex: number): void {
+    this.originalEventsPackages[eventsPackageIndex].events.splice(
+      eventIndex,
+      1,
+    );
+
+    if (this.originalEventsPackages[eventsPackageIndex].events.length === 0) {
+      this.originalEventsPackages.splice(eventsPackageIndex, 1);
+    }
+
+    this.eventsPackages = cloneDeep(this.originalEventsPackages);
+  }
+
+  addToCart(eventsPackageIndex: number, eventIndex: number): void {
+    const cartString = localStorage.getItem('cart');
+    const eventsPackage = this.eventsPackages[eventsPackageIndex];
+    const event = eventsPackage.events[eventIndex];
+    let cart: EventsPackage[] = [];
+
+    const newEventsPackage = {
+      time: eventsPackage.time,
+      date: eventsPackage.date,
+      events: [event],
+    };
+
+    if (cartString) {
+      let eventsPackageExist: boolean = false;
+      cart = JSON.parse(cartString);
+
+      cart = cart.map((item) => {
+        if (item.time === eventsPackage.time) {
+          eventsPackageExist = true;
+          item.events.push(event);
+        }
+        return item;
+      });
+
+      if (!eventsPackageExist) {
+        cart.push(newEventsPackage);
+      }
+    } else {
+      cart = [newEventsPackage];
+    }
+
+    this.cartService.setCart(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    this.removeEvent(eventsPackageIndex, eventIndex);
+  }
+
+  removeEventsInCartFromEvents(events: Event[]): Event[] {
+    const cartString = localStorage.getItem('cart');
+
+    if (cartString) {
+      const cart: EventsPackage[] = JSON.parse(cartString);
+
+      events = events.filter((event) => {
+        const id = event._id;
+        let eventFound: boolean = false;
+
+        cart.forEach((eventsPackage) => {
+          if (!eventFound) {
+            eventsPackage.events.forEach((event) => {
+              if (!eventFound && id === event._id) {
+                eventFound = true;
+              }
+            });
+          }
+        });
+
+        return !eventFound;
+      });
+    }
+
+    return events;
   }
 }
