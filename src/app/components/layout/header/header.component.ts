@@ -7,6 +7,7 @@ import { EventSearchFieldComponent } from './event-search-field/event-search-fie
 import { EventsPackage } from '../../../interfaces/event';
 import { isPlatformBrowser } from '@angular/common';
 import { CartService } from '../../../services/cart.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,7 @@ import { CartService } from '../../../services/cart.service';
     MatButtonModule,
     MatBadgeModule,
     EventSearchFieldComponent,
+    RouterModule,
   ],
 })
 export class HeaderComponent {

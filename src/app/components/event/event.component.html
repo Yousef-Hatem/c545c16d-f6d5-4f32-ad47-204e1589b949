@@ -27,9 +27,16 @@
     Start: {{ event.startTime }} • End: {{ event.endTime }}
   </div>
   <div class="buttons">
-    <button mat-button color="primary" (click)="addToCart()">
-      <mat-icon>add</mat-icon> Add To Cart
-    </button>
+    @if (cartMode) {
+      <button mat-button color="primary" (click)="removeFromCart()">
+        <mat-icon class="material-icons-outlined">delete</mat-icon>
+        Remove
+      </button>
+    } @else {
+      <button mat-button color="primary" (click)="addToCart()">
+        <mat-icon>add</mat-icon> Add To Cart
+      </button>
+    }
     <a
       mat-button
       color="primary"

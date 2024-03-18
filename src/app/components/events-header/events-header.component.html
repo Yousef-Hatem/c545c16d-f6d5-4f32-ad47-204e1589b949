@@ -1,14 +1,26 @@
 <div class="events-header">
-  <h1>{{ title | titlecase }}</h1>
-  <div class="details">
-    <div class="city">
-      <div class="imgBx">
-        <img src="assets/images/britain.jpg" alt="britain" />
+  <div class="title">
+    @if (backArrow) {
+      <div class="back">
+        <button mat-icon-button [routerLink]="backArrow">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
       </div>
-      <div class="text">London</div>
-    </div>
-    <div class="period">
-      {{ startDate | date: "yyyy-MM-dd" }} • {{ endDate | date: "yyyy-MM-dd" }}
-    </div>
+    }
+    <h1>{{ title | titlecase }}</h1>
   </div>
+  @if (startDate && endDate) {
+    <div class="details">
+      <div class="city">
+        <div class="imgBx">
+          <img src="assets/images/britain.jpg" alt="britain" />
+        </div>
+        <div class="text">London</div>
+      </div>
+      <div class="period">
+        {{ startDate | date: "yyyy-MM-dd" }} •
+        {{ endDate | date: "yyyy-MM-dd" }}
+      </div>
+    </div>
+  }
 </div>

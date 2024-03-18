@@ -2,8 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  h1 {
-    margin: 0;
+  .title {
+    display: flex;
+    align-items: center;
+    .back {
+      margin-inline-end: 5px;
+    }
+    h1 {
+      margin: 0;
+    }
   }
   .details {
     display: flex;
@@ -18,8 +25,8 @@
     .city {
       margin-inline-end: 10px;
       .imgBx {
-        width: 20px;
-        height: 20px;
+        width: 28px;
+        height: 28px;
         border-radius: 100px;
         margin-inline-end: 5px;
         overflow: hidden;

@@ -1,9 +1,11 @@
 <section>
   <app-events-header
-    [title]="title"
-    [startDate]="originalEventsPackages[originalEventsPackages.length - 1].time"
-    [endDate]="originalEventsPackages[0].time"
+    [title]="headerTitle"
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [backArrow]="cartMode ? '/' : ''"
   ></app-events-header>
+
   @for (
     eventsPackage of eventsPackages;
     track eventsPackageIndex;
@@ -19,20 +21,33 @@
         ) {
           <app-event
             [event]="event"
+            [cartMode]="cartMode"
             (imageErrorEvent)="removeEvent(eventsPackageIndex, eventsIndex)"
             (addToCartEvent)="addToCart(eventsPackageIndex, eventsIndex)"
+            (removeFromCartEvent)="
+              removeFromCart(eventsPackageIndex, eventsIndex)
+            "
           ></app-event>
         }
       </div>
     </div>
   }
 
-  @if (!eventsPackages.length) {
+  @if (!eventsPackages.length && originalEventsPackages.length) {
     <div class="not-found">
       <div class="imgBx">
         <img src="assets/images/no-results.png" width="128" />
       </div>
       <div class="text">No events found matching your search</div>
+    </div>
+  }
+
+  @if (!eventsPackages.length && !originalEventsPackages.length && cartMode) {
+    <div class="not-found">
+      <div class="imgBx">
+        <img src="assets/images/empty-cart.png" width="128" />
+      </div>
+      <div class="text">Your events cart is empty</div>
     </div>
   }
 </section>

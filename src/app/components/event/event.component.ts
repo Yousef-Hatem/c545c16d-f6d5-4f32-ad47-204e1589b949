@@ -13,8 +13,10 @@ import { Event } from '../../interfaces/event';
 })
 export class EventComponent {
   @Input() event!: Event;
+  @Input() cartMode: boolean = false;
 
   @Output() addToCartEvent = new EventEmitter();
+  @Output() removeFromCartEvent = new EventEmitter();
   @Output() imageErrorEvent = new EventEmitter();
 
   imageError(): void {
@@ -23,5 +25,9 @@ export class EventComponent {
 
   addToCart(): void {
     this.addToCartEvent.emit();
+  }
+
+  removeFromCart(): void {
+    this.removeFromCartEvent.emit();
   }
 }

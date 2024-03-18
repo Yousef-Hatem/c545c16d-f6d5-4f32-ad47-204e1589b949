@@ -16,21 +16,35 @@ import { EventsHeaderComponent } from '../events-header/events-header.component'
 export class EventsComponent {
   originalEventsPackages: EventsPackage[] = [];
   eventsPackages: EventsPackage[] = [];
+  cartMode: boolean = false;
+  startDate: number = 0;
+  endDate: number = 0;
 
-  @Input() title: string = '';
+  @Input() headerTitle: string = '';
   @Input() events: Event[] = [];
+  @Input() cart: EventsPackage[] | undefined;
 
   constructor(
     private eventSearchService: EventSearchService,
     private cartService: CartService,
-  ) {}
+  ) {
+    this.eventSearchService.getSearch().subscribe((search) => {
+      this.filteredEvents(search);
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['events']) {
       this.setEventsPackages(this.events);
-      this.eventSearchService.getSearch().subscribe((search) => {
-        this.filteredEvents(search);
-      });
+      this.setStartDateEndDate();
+    }
+    if (changes['cart']) {
+      if (typeof this.cart !== 'undefined') {
+        this.cartMode = true;
+        this.originalEventsPackages = cloneDeep(this.cart);
+        this.eventsPackages = this.cart;
+        this.setStartDateEndDate();
+      }
     }
   }
 
@@ -140,6 +154,8 @@ export class EventsComponent {
     }
 
     this.eventsPackages = cloneDeep(this.originalEventsPackages);
+
+    this.setStartDateEndDate();
   }
 
   addToCart(eventsPackageIndex: number, eventIndex: number): void {
@@ -177,5 +193,26 @@ export class EventsComponent {
     localStorage.setItem('cart', JSON.stringify(cart));
 
     this.removeEvent(eventsPackageIndex, eventIndex);
+  }
+
+  removeFromCart(eventsPackageIndex: number, eventIndex: number): void {
+    this.removeEvent(eventsPackageIndex, eventIndex);
+
+    localStorage.setItem('cart', JSON.stringify(this.originalEventsPackages));
+
+    this.cartService.setCart(this.originalEventsPackages);
+  }
+
+  setStartDateEndDate(): void {
+    if (this.originalEventsPackages.length) {
+      this.startDate =
+        this.originalEventsPackages[
+          this.originalEventsPackages.length - 1
+        ].time;
+      this.endDate = this.originalEventsPackages[0].time;
+    } else {
+      this.startDate = 0;
+      this.endDate = 0;
+    }
   }
 }
