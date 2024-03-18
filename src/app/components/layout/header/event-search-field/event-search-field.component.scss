@@ -3,6 +3,7 @@
 .event-search {
   @include mat.form-field-density(-5);
 
+  width: 100%;
   border-radius: 6px;
   background: #ffffff29;
 

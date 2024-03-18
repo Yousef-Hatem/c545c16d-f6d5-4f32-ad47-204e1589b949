@@ -1,7 +1,10 @@
 section {
-  padding: 20px 0;
+  padding: 20px;
   margin: auto;
   width: 740px;
+  @media (max-width: 795px) {
+    width: calc(100% - 40px);
+  }
   .events {
     .date {
       margin: 20px 0;
@@ -15,6 +18,9 @@ section {
       app-event {
         width: calc(50% - 5px);
         margin: 5px 0;
+        @media (max-width: 795px) {
+          width: 100%;
+        }
       }
     }
   }
