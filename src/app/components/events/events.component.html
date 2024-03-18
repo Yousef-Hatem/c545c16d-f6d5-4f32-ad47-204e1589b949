@@ -1,8 +1,8 @@
 <section>
   <app-events-header
     title="public events"
-    [startDate]="eventsPackages[eventsPackages.length - 1].time"
-    [endDate]="eventsPackages[0].time"
+    [startDate]="originalEventsPackages[originalEventsPackages.length - 1].time"
+    [endDate]="originalEventsPackages[0].time"
   ></app-events-header>
   @for (
     eventsPackage of eventsPackages;
