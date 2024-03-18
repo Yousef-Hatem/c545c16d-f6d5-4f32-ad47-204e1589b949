@@ -1,4 +1,10 @@
-# EventsApp
+# EventsApp 
+Total time spent on this project
+
+<a href="https://wakatime.com/badge/user/0a45cedb-bdae-41f3-8bca-5101bf18eeab/project/018e41e8-49a1-40ee-b0f6-37d7be2de1bd"><img src="https://wakatime.com/badge/user/0a45cedb-bdae-41f3-8bca-5101bf18eeab/project/018e41e8-49a1-40ee-b0f6-37d7be2de1bd.svg" alt="wakatime"></a>
+
+You can find more information about the project build here:
+https://wakatime.com/@YousefHatem/projects/dxdsnyzskq?start=2024-03-12&end=2024-03-18
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
 
