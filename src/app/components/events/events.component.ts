@@ -5,13 +5,14 @@ import { EventService } from '../../services/event.service';
 import { EventComponent } from '../event/event.component';
 import { EventSearchService } from '../../services/event-search.service';
 import { cloneDeep } from 'lodash';
+import { EventsHeaderComponent } from '../events-header/events-header.component';
 
 @Component({
   selector: 'app-events',
   standalone: true,
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss',
-  imports: [EventComponent],
+  imports: [EventComponent, EventsHeaderComponent],
 })
 export class EventsComponent {
   originalEventsPackages: EventsPackage[] = [];

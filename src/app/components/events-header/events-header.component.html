@@ -1,0 +1,14 @@
+<div class="events-header">
+  <h1>{{ title | titlecase }}</h1>
+  <div class="details">
+    <div class="city">
+      <div class="imgBx">
+        <img src="assets/images/britain.jpg" alt="britain" />
+      </div>
+      <div class="text">London</div>
+    </div>
+    <div class="period">
+      {{ startDate | date: "yyyy-MM-dd" }} • {{ endDate | date: "yyyy-MM-dd" }}
+    </div>
+  </div>
+</div>

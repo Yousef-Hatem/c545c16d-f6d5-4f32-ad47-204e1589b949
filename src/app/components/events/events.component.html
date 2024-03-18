@@ -1,6 +1,9 @@
 <section>
-  <h1>Public Events</h1>
-
+  <app-events-header
+    title="public events"
+    [startDate]="eventsPackages[eventsPackages.length - 1].time"
+    [endDate]="eventsPackages[0].time"
+  ></app-events-header>
   @for (
     eventsPackage of eventsPackages;
     track eventsPackageIndex;
